@@ -38,8 +38,35 @@ app.post('/api/v1/user/signup', async (c) => {
   }
 })
 
-app.post('/api/v1/user/signin', (c) => {
-  return c.text("signin route")
+app.post('/api/v1/user/signin', async(c) => {
+  const body = await c.req.json();
+
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate())
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        email: body.email,
+        password: body.password
+      }
+    })
+
+    if(!user){
+      c.status(403);
+      return c.text("User does not exsist");
+    }
+
+    const jwt = await sign({id: user.id}, c.env.JWT_PASSWORD)
+    setCookie(c,"jwt",jwt)
+    c.status(201);
+    return c.text('signin hogya')
+
+  } catch (error) {
+    c.status(411);
+    return c.text("Invalid");
+  }
 })
 
 app.post('/api/v1/blog', (c) => {
