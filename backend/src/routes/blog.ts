@@ -47,7 +47,7 @@ blogRouter.post("/", async (c) => {
   try {
     const userID = c.get('userId');
     console.log('aa')
-    const blogPost = prisma.post.create({
+    const blogPost = await prisma.post.create({
       data: {
         title: body.title,
         content: body.content,
@@ -55,20 +55,48 @@ blogRouter.post("/", async (c) => {
       }
     })
     c.status(201);
-    return c.json("created")
+    return c.json({ "created": blogPost.id })
   } catch (error) {
     c.status(411);
     return c.json("error while creating post")
   }
 })
 
-blogRouter.put('/:id', async (c) => {
+blogRouter.get('/:id', async (c) => {
   const id = c.req.param('id');
-  console.log(id)
-  return c.text("blog id route")
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate())
+
+  try {
+    const blog = await prisma.post.findFirst({
+      where: {
+        id: id
+      },
+      select: {
+        title: true,
+        content: true
+      }
+    })
+
+    if (!blog) return c.json("Blog does'nt exsist")
+
+    return c.json(blog);
+  } catch (error) {
+    return c.json("error")
+  }
+
 })
 
 blogRouter.get('/bulk', async (c) => {
-  console.log(c.get('userId'))
-  return c.text("blog bulk route")
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate())
+
+  try {
+    const blogs = await prisma.post.findMany();
+    return c.json(blogs);
+  } catch (error) {
+    return c.json("error")
+  }
 })
