@@ -88,6 +88,34 @@ blogRouter.get('/:id', async (c) => {
 
 })
 
+blogRouter.put('/:id', async (c) => {
+  const id = c.req.param('id');
+  const body = await c.req.json();
+
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate())
+
+  try {
+    const blog = await prisma.post.update({
+      where: {
+        id: id
+      },
+      data: {
+        title: body.title,
+        content: body.content
+      }
+    })
+
+    if (!blog) return c.json("Blog not updated")
+
+    return c.json("Blog updated");
+  } catch (error) {
+    return c.json("error")
+  }
+
+})
+
 blogRouter.get('/bulk', async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
