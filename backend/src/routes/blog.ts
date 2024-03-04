@@ -3,6 +3,8 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { getCookie } from 'hono/cookie'
 import { verify } from 'hono/jwt';
+import { createBlogInput, updateBlogInput } from '@sagardxd/medium-common'
+
 
 export const blogRouter = new Hono<{
   Bindings: {
@@ -40,6 +42,12 @@ blogRouter.use('/*', async (c, next) => {
 
 blogRouter.post("/", async (c) => {
   const body = await c.req.json();
+  const { success } = createBlogInput.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json("input errors")
+  }
+
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate())
@@ -91,6 +99,12 @@ blogRouter.get('/:id', async (c) => {
 blogRouter.put('/:id', async (c) => {
   const id = c.req.param('id');
   const body = await c.req.json();
+  const { success } = updateBlogInput.safeParse(body);
+  if (!success) {
+    c.status(411);
+    return c.json("input errors")
+  }
+
 
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
