@@ -16,11 +16,12 @@ const Blogs = () => {
     <div>
       <AppBar />
       <div className="flex justify-center">
-        <div className="max-w-lg">
+        <div className="">
           {blogs.map(blog =>   <BlogCard
-            authorName={"Sagar"}
-            title={"Will Sagar to Japan for his Interndfsafffffff"}
-            content={"Obviously he will congo to Obviously he will congo to Obviously he will congo to Obviously he will congo to Obviously he will congo to"}
+            id={blog.id}
+            authorName={blog.author.name}
+            title={blog.title}
+            content={blog.content}
             publishedDate={"Mar 5,2024"} /> )}
 
         
