@@ -20,7 +20,7 @@ const Signup = () => {
 
       try {
          await axios.post(`${BACKEND_URL}/api/v1/user/signin`,postInputs);
-         navigate("/blog")
+         navigate("/blogs")
       } catch (error) {
         console.log(error)
         alert("Error while signing up")
