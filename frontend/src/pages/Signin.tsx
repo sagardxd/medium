@@ -19,7 +19,9 @@ const Signup = () => {
       console.log(postInputs)
 
       try {
-         await axios.post(`${BACKEND_URL}/api/v1/user/signin`,postInputs);
+         await axios.post(`${BACKEND_URL}/api/v1/user/signin`,postInputs , {
+            withCredentials: true, // This includes cookies in the request
+           });
          navigate("/blogs")
       } catch (error) {
         console.log(error)

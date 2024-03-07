@@ -18,9 +18,6 @@ export const blogRouter = new Hono<{
 
 //middleware
 blogRouter.use('/*', async (c, next) => {
-
-  c.res.headers.set('Access-Control-Allow-Origin', 'http://localhost:5173');
-  c.res.headers.set('Access-Control-Allow-Credentials', 'true');
   const jwtCookie = getCookie(c, "jwt");
   if (!jwtCookie) {
     c.status(401);
