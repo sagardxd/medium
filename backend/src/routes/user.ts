@@ -34,7 +34,7 @@ userRouter.post('/signup', async (c) => {
         })
 
         const jwt = await sign({ id: user.id }, c.env.JWT_PASSWORD)
-        setCookie(c, "jwt", jwt)
+        setCookie(c, "jwt", jwt, {httpOnly: true})
         c.status(201);
         return c.text('signup hogya')
 
@@ -70,7 +70,7 @@ userRouter.post('/signin', async (c) => {
         }
 
         const jwt = await sign({ id: user.id }, c.env.JWT_PASSWORD)
-        setCookie(c, "jwt", jwt)
+       setCookie(c, "jwt", jwt, {httpOnly: true})
         c.status(201);
         return c.text('signin hogya')
 
@@ -78,4 +78,18 @@ userRouter.post('/signin', async (c) => {
         c.status(411);
         return c.text("Invalid");
     }
+})
+
+
+userRouter.get('/cookie', async (c) => {
+    const body = await c.req.json();
+    const {success} = signinInput.safeParse(body);
+    if(!success) {
+        c.status(411);
+        return c.json("input errors")
+    }
+
+    setCookie(c, "cook", 'hey', {httpOnly: true})
+
+     return c.text("hi")
 })

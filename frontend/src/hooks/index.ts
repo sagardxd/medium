@@ -8,7 +8,7 @@ export const useBlogs = () => {
     const [blogs, setblogs] = useState([]);
 
     useEffect(() => {
-        axios.get(`${BACKEND_URL}/api/v1/blog/bulk`)
+        axios.get(`${BACKEND_URL}/api/v1/blog/bulk`, {withCredentials: true})
         .then(res => {
             setblogs(res.data)
             setloading(false)
