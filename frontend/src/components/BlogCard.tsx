@@ -8,7 +8,7 @@ interface BlogCardProps {
 
 const BlogCard = ({ authorName, title, content, publishedDate }: BlogCardProps) => {
     return (
-        <div className="flex flex-col p-4 gap-2">
+        <div className="flex flex-col p-4 gap-3 py-6">
             <div className="flex text-sm gap-2">
                 <div className="flex flex-col justify-center">
                 <Avatar name={authorName} size="small" />
@@ -34,7 +34,7 @@ const BlogCard = ({ authorName, title, content, publishedDate }: BlogCardProps) 
             <div className="text-sm text-slate-500 font-extralight">
                 {`${Math.ceil(content.length / 100)} minute(s) read`}
             </div>
-            <div className="border-b-2"></div>
+            <div className="border-b-2 pt-1"></div>
         </div>
     )
 }
