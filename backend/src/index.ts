@@ -13,7 +13,7 @@ const app = new Hono<{
 }>()
 
 app.use("/*", cors({
-  origin: 'http://localhost:5173', // Adjust this to match your frontend origin
+  origin: 'https://medium-one-fawn.vercel.app/', // Adjust this to match your frontend origin
   credentials: true,
  }));
 
