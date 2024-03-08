@@ -75,7 +75,7 @@ userRouter.post('/signin', async (c) => {
 
         const jwt = await sign({ id: user.id }, c.env.JWT_PASSWORD)
         setCookie(c, "jwt", jwt, {    secure: true, // Set to true if your site is served over HTTPS
-        httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+        httpOnly: false, // Prevents client-side JavaScript from accessing the cookie
         sameSite: 'None', // Allows the cookie to be sent in cross-site requests
         path: '/'})
 
