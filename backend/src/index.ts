@@ -13,7 +13,7 @@ const app = new Hono<{
 }>()
 
 app.use("/*", cors({
-  origin: 'https://medium-snorlxz.vercel.app', // Adjust this to match your frontend origin
+  origin: '*', // Adjust this to match your frontend origin
   credentials: true,
  }));
 
