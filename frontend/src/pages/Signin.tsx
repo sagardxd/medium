@@ -19,9 +19,11 @@ const Signup = () => {
       console.log(postInputs)
 
       try {
-         await axios.post(`${BACKEND_URL}/api/v1/user/signin`,postInputs , {
+         const response = await axios.post(`${BACKEND_URL}/api/v1/user/signin`,postInputs , {
             withCredentials: true, // This includes cookies in the request
            });
+           const jwt = response.data;
+           localStorage.setItem("token", jwt);
          navigate("/blogs")
       } catch (error) {
         console.log(error)
