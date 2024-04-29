@@ -12,7 +12,10 @@ const app = new Hono<{
   }
 }>()
 
-app.use("/*", cors());
+app.use("/*", cors({
+  origin: 'https://medium-chi-swart.vercel.app', // Adjust this to match your frontend origin
+  credentials: true,
+ }));
 
 
 
