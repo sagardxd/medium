@@ -34,12 +34,8 @@ userRouter.post('/signup', async (c) => {
         })
         
         const jwt = await sign({ id: user.id }, c.env.JWT_PASSWORD)
-        setCookie(c, "jwt", jwt, {    secure: true, // Set to true if your site is served over HTTPS
-        httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-        sameSite: 'None', // Allows the cookie to be sent in cross-site requests
-        path: '/'})
         c.status(201);
-        return c.text('signup hogya')
+        return c.text(jwt)
         
     } catch (error) {
         c.status(411);
@@ -74,21 +70,12 @@ userRouter.post('/signin', async (c) => {
         }
 
         const jwt = await sign({ id: user.id }, c.env.JWT_PASSWORD)
-        setCookie(c, "jwt", jwt, {    secure: true, // Set to true if your site is served over HTTPS
-        httpOnly: false, // Prevents client-side JavaScript from accessing the cookie
-        sameSite: 'None', // Allows the cookie to be sent in cross-site requests
-        path: '/'})
 
         c.status(201);
-        return c.text('signin hogya')
+        return c.text(jwt)
 
     } catch (error) {
         console.log(error)
         return c.text("Invalid");
     }
-})
-
-userRouter.get('/signin', async (c) => {
-    const body = await c.req.json();
-    return c.text("jeu")
 })

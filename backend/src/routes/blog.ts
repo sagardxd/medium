@@ -16,27 +16,26 @@ export const blogRouter = new Hono<{
   }
 }>();
 
-//middleware
-blogRouter.use('/*', async (c, next) => {
-  const jwtCookie = getCookie(c, "jwt");
-  if (!jwtCookie) {
-    c.status(401);
-    return c.json({ msg: "Not authorized" })
-  }
+blogRouter.use("/*", async (c, next) => {
+  const authHeader = c.req.header("authorization") || "";
   try {
-    const payload = await verify(jwtCookie, c.env.JWT_PASSWORD);
-    if (!payload) {
-      c.status(401);
-      return c.json({ msg: "Not authorized" })
-    }
-    c.set("userId", payload.id)
-    await next();
-  } catch (error) {
-    console.log(error)
-    return c.json("error")
+      const user = await verify(authHeader, c.env.JWT_PASSWORD);
+      if (user) {
+          c.set("userId", user.id);
+          await next();
+      } else {
+          c.status(403);
+          return c.json({
+              message: "You are not logged in"
+          })
+      }
+  } catch(e) {
+      c.status(403);
+      return c.json({
+          message: "You are not logged in"
+      })
   }
-
-})
+});
 
 
 
