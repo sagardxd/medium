@@ -1,7 +1,6 @@
 import { Hono } from 'hono'
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
-import { getCookie } from 'hono/cookie'
 import { verify } from 'hono/jwt';
 import { createBlogInput, updateBlogInput } from '@sagardxd/medium-common'
 
@@ -36,7 +35,6 @@ blogRouter.use("/*", async (c, next) => {
       })
   }
 });
-
 
 
 blogRouter.post("/", async (c) => {

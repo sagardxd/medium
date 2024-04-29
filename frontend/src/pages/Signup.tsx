@@ -15,19 +15,19 @@ const Signup = () => {
         name: ""
     });
 
-    async function AuthRequest(){
+    async function AuthRequest() {
         console.log(postInputs)
-  
+
         try {
-            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`,postInputs);
-           const jwt = response.data;
+            const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, postInputs);
+            const jwt = response.data;
             localStorage.setItem("token", jwt)
-           navigate("/blogs")
+            navigate("/blogs")
         } catch (error) {
-          console.log(error)
-          alert("Error while signing up")
+            console.log(error)
+            alert("Error while signing up")
         }
-      }
+    }
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-2">
