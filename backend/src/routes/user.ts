@@ -39,6 +39,7 @@ userRouter.post('/signup', async (c) => {
         
     } catch (error) {
         c.status(411);
+        console.log(error)
         return c.text("Invalid");
     }
 })

@@ -2,6 +2,15 @@ import { Blog } from "../hooks"
 import AppBar from "./AppBar"
 import { Avatar } from "./BlogCard"
 
+const formattedContent = (content: any) => {
+    const paragraphs = content.split("\n\n"); // Split text into paragraphs based on double line breaks
+    const formattedParagraphs = paragraphs.map((paragraph: any, index: any) => (
+        <p key={index}>{paragraph}</p> // Wrap each paragraph in <p> tags
+    ));
+    return formattedParagraphs;
+};
+
+
 const SingleBlog = ({ blog }: { blog: Blog }) => {
     return (
         <div>
@@ -14,10 +23,10 @@ const SingleBlog = ({ blog }: { blog: Blog }) => {
                                 {blog.title}
                             </div>
                             <div className="text-slate-500">
-                                Posted on 5 May 2003
+                                Posted on {new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' })}
                             </div>
                             <div className="">
-                                {blog.content}
+                                {formattedContent(blog.content)}
                             </div>
                         </div>
                     </div>
